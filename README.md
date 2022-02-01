@@ -1,5 +1,9 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
+<h1 align="center">
+  Reign Front End Developer Challenge
+</h1>
 
+The web application request and shows data from the Hackers News public API, using React, Typescript, Redux Toolkit, Emotion and Axios.
+ 
 ## Available Scripts
 
 In the project directory, you can run:
