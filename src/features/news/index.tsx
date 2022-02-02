@@ -1,21 +1,52 @@
 import React, { useEffect } from 'react';
-import axios from 'axios';
-import  { INewsItem } from './types';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { INewsItem } from './types';
+import { AppThunkDispatch } from '../../app/store';
+
+import NewsItem from './newsItem';
+import {
+  selectNews,
+  selectFavs,
+  selectShow,
+  selectQuery,
+  selectPage,
+  NewsAPICall,
+  addFav,
+  deleteFav
+} from './newsSlice';
 
 function News() {
+  const currentNews = useAppSelector(selectNews);
+  const currentFavs = useAppSelector(selectFavs);
+  const currentShow = useAppSelector(selectShow);
+  const currentQuery = useAppSelector(selectQuery);
+  const currentPage = useAppSelector(selectPage);
+  const dispatch: AppThunkDispatch = useAppDispatch();
+
   useEffect(() => {
-    const NewsAPICall = async () => {
-      const response = await axios.get(`https://hn.algolia.com/api/v1/search_by_date?query=reactjs&page=0`);
-      
-      console.log(response.data.hits.map( ({ objectID, author, created_at, story_title, story_url }: INewsItem) => {
-        return { objectID, author, created_at, story_title, story_url };
-      }));
-    };
-    NewsAPICall();
-  }, []);
+    dispatch(NewsAPICall({ currentQuery, currentPage }));
+  }, [currentQuery, currentPage]);
+
+  const likeFunction = (item: INewsItem) => {
+    if (currentFavs[currentQuery][item.objectID]) {
+      dispatch(deleteFav(item.objectID))
+    } else {
+      dispatch(addFav(item))
+    }
+  }
+
   return (
     <div>
-      List of News Items with infinite scroll
+      <h1>List of News Items: {currentShow}</h1>
+      {
+        currentShow === 'favs' ?
+          Object.entries(currentFavs[currentQuery]).reverse().map(([id, item]) =>
+            <NewsItem key={id} data={item} like={likeFunction} />
+          ) :
+          Object.entries(currentNews).map(([id, item]) =>
+            <NewsItem key={id} data={item} like={likeFunction} />
+          )
+      }
     </div>
   );
 }
