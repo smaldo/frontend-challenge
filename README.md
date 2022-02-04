@@ -2,7 +2,7 @@
   Reign Front End Developer Challenge
 </h1>
 
-The web application request and shows data from the Hackers News public API, using React, Typescript, Redux Toolkit, Emotion and Axios.
+The web application request and shows data from the Hackers News public API.
 [**Demo Website**](https://reign-challenge-smaldo.netlify.app/)
 
 ## Available Scripts
@@ -42,8 +42,53 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+## Functionalities
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Responsive website: Achieved with css using @emotion/styled.
+- Design: Achieved with css using @emotion/styled and react-icons.
+- Hack News API Calls: Achieved with axios and redux thunk.
+- State management: Achieved with redux toolkit.
+- Persistent state: Achieved with redux-persist.
+- Deployment: Achieved using netlify with git workflow.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Software design
+
+### API data
+```
+export interface INewsItem {
+    objectID: string;
+    author: string;
+    story_title: string | null;
+    story_url: string | null;
+    created_at: string;
+}
+```
+### Redux Store
+```
+export interface INewsState {
+    news: { [key: string]: INewsItem };               //News shown after API Call
+    favs: {                                           //Favorites News by category.
+        'Reactjs': { [key: string]: INewsItem };
+        'Angular': { [key: string]: INewsItem };
+        'Vuejs': { [key: string]: INewsItem };
+    };
+    show: 'all' | 'favs';                             //What is currently being shown
+    query: 'Reactjs' | 'Angular' | 'Vuejs';           //Current category of news that is being retrieved from the API
+    page: number;                                     //Current page that is being retrieved from the API
+}
+```
+### Component Structure
+
+App
+└── HomePage
+    ├── Navbar
+    ├── Favs
+    ├── SelectQuery 
+    ├── News
+    │   └── NewsItem
+    ├── Favs  
+    └── Pagination 
+
+## Known bugs
+
+- Local storage allows a maximum of 10MB, too much news in favorites can cause problems, if it happens you need to clear the data from the browser.
