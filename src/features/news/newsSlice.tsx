@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState, AppThunk, AppThunkDispatch } from '../../app/store';
+import { RootState } from '../../app/store';
 import { INewsItem } from './types';
 import axios from 'axios';
 
@@ -29,7 +29,7 @@ const initialState: INewsState = {
 export const NewsAPICall = createAsyncThunk(
     'news/fetchNews',
     async ({currentQuery, currentPage}: {currentQuery: string, currentPage: number}) => {
-        const response = await axios.get(`https://hn.algolia.com/api/v1/search_by_date?query=${currentQuery}&page=${currentPage}`);
+        const response = await axios.get(`https://hn.algolia.com/api/v1/search_by_date?query=${currentQuery.toLowerCase()}&page=${currentPage}&hitsPerPage=8`);
         const news: { [key: string]: INewsItem } = {};
         response.data.hits.map( ({ objectID, author, created_at, story_title, story_url }: INewsItem) => {
             news[objectID] = { objectID, author, created_at, story_title, story_url };
