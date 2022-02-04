@@ -78,7 +78,7 @@ export interface INewsState {
 }
 ```
 ### Component Structure
-
+```
 App
 └── HomePage
     ├── Navbar
@@ -88,7 +88,7 @@ App
     │   └── NewsItem
     ├── Favs  
     └── Pagination 
-
+```
 ## Known bugs
 
 - Local storage allows a maximum of 10MB, too much news in favorites can cause problems, if it happens you need to clear the data from the browser.
