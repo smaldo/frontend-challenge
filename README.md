@@ -3,7 +3,7 @@
 </h1>
 
 The web application request and shows data from the Hackers News public API.
-[**Demo Website**](https://reign-challenge-smaldo.netlify.app/)
+[**Demo Website**](https://frontend-challenge-smaldo.netlify.app/)
 
 ## Available Scripts
 
